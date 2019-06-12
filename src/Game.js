@@ -32,6 +32,7 @@ class Game extends Component {
     this.roll = this.roll.bind(this);
     this.doScore = this.doScore.bind(this);
     this.toggleLocked = this.toggleLocked.bind(this);
+    this.displayRollInfo = this.displayRollInfo.bind(this);
   }
 
   roll(evt) {
@@ -67,6 +68,15 @@ class Game extends Component {
     }));
     this.roll();
   }
+  displayRollInfo(){
+    const messages = [
+      "0 rolls left", 
+      "1 roll left",
+      "2 rolls left",
+      "starting round"
+    ];
+    return messages[this.state.rollsLeft];
+  }
 
   render() {
     return (
@@ -79,14 +89,14 @@ class Game extends Component {
               dice={this.state.dice}
               locked={this.state.locked}
               handleClick={this.toggleLocked}
+              disabled={this.state.rollsLeft === 0}
             />
             <div className='Game-button-wrapper'>
               <button
                 className='Game-reroll'
                 disabled={this.state.locked.every(x => x) || this.state.rollsLeft === 0 }
                 onClick={this.roll}
-              >
-                {this.state.rollsLeft} Rerolls Left
+              >{this.displayRollInfo()}
               </button>
             </div>
           </section>
